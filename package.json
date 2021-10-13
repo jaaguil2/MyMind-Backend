@@ -4,20 +4,28 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jaaguil2/MyMind-Backend.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Joshua Aguilar",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jaaguil2/MyMind-Backend/issues"
   },
   "homepage": "https://github.com/jaaguil2/MyMind-Backend#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
     "mongoose": "^6.0.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
   }
 }

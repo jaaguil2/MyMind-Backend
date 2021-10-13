@@ -15,6 +15,6 @@ const roomSchema = new mongoose.Schema({
     type: mongoose.ObjectId,
     ref: 'Room'
   }]
-}, {timestamps: True})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Room', roomSchema)
