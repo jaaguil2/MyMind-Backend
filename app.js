@@ -11,5 +11,10 @@ mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }, () => {
-  console.log('the connection with mongo is established');
+  console.log('Connection established.');
 });
+
+db.on('error', (err) => console.log("Mongo Error:", err.message))
+db.on('connected', () => console.log('mongo connected: ', mongoURI))
+db.on('disconnected', () => console.log('mongo disconnected'))
+
