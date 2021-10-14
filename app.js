@@ -1,9 +1,9 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const cors = require('cors')
 
 // Controllers
 const userController = require('./controllers/users')
+const roomController = require('./controllers/rooms')
 
 // Init express
 const app = express()
@@ -15,6 +15,7 @@ app.use(express.urlencoded({extended: true}))
 
 // Middleware Routes
 app.use('/api/users', userController)
+app.use('/api/rooms', roomController)
 
 
 // Set Port

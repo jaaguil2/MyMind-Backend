@@ -27,17 +27,19 @@ router.post('/', (req, res) => {
 // UPDATE
 // PUT api/user/5a7db6c74d55bc51bdf39793
 router.put('/:id', (req, res) => { 
-  User.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true,
-  }).then((user) => res.json(user));
+  User.findOneAndUpdate(
+    { _id: req.params.id }, 
+    req.body, 
+    { new: true }
+  )
+    .then((user) => res.json(user))
 });
 
 // DESTROY
 // DELETE api/user/5a7db6c74d55bc51bdf39793
 router.delete('/:id', (req, res) => { 
-  User.findOneAndDelete({
-    _id: req.params.id,
-  }).then((job) => res.json(job));
-});
+  User.findOneAndDelete({ _id: req.params.id})
+  .then((job) => res.json(job))
+})
 
 module.exports = router
