@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const { handleErrors, handleValidationErrors } = require('./middleware/custom_errors')
 
 // Controllers
 const userController = require('./controllers/users')
@@ -17,6 +18,9 @@ app.use(express.urlencoded({extended: true}))
 app.use('/api/users', userController)
 app.use('/api/rooms', roomController)
 
+// Error Handling
+app.use(handleValidationErrors)
+app.use(handleErrors)
 
 // Set Port
 app.set('port', process.env.PORT || 4000)

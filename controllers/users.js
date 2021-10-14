@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/User')
+const { handleValidateId, handleRecordExists } = require('../middleware/custom_errors')
 
 const router = express.Router()
 
@@ -13,15 +14,10 @@ router.get('/', (req, res, next) => {
 
 // SHOW
 // GET api/user/5a7db6c74d55bc51bdf39793
-router.get('/:id', (req, res, next) => {
+router.get('/:id', handleValidateId, (req, res, next) => {
   User.findById(req.params.id)
-    .then(user => {
-      if (!user) {
-        res.sendStatus(404)
-      } else {
-        res.json(user)
-      }
-    })
+    .then(handleRecordExists)
+    .then(user => res.json(user))
     .catch(next)
 })
 
@@ -35,33 +31,23 @@ router.post('/', (req, res, next) => {
 
 // UPDATE
 // PUT api/user/5a7db6c74d55bc51bdf39793
-router.put('/:id', (req, res, next) => {
+router.put('/:id', handleValidateId, (req, res, next) => {
   User.findOneAndUpdate(
     { _id: req.params.id }, 
     req.body, 
     { new: true }
   )
-    .then(user => {
-      if (!user) {
-        res.sendStatus(404)
-      } else {
-        res.json(user)
-      }
-    })
+    .then(handleRecordExists)
+    .then(user => res.json(user))
     .catch(next)
 })
 
 // DESTROY
 // DELETE api/user/5a7db6c74d55bc51bdf39793
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', handleValidateId, (req, res, next) => {
   User.findOneAndDelete({ _id: req.params.id})
-    .then(user => {
-      if (!user) {
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(204);
-      }
-    })
+    .then(handleRecordExists)
+    .then(user => res.sendStatus(204))
     .catch(next)
 })
 
