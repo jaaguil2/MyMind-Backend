@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+require('dotenv').config()
 const { handleErrors, handleValidationErrors } = require('./middleware/custom_errors')
 
 // Controllers
@@ -23,7 +24,7 @@ app.use(handleValidationErrors)
 app.use(handleErrors)
 
 // Set Port
-app.set('port', process.env.PORT || 4000)
+app.set('port', process.env.PORT)
 
 // Connect on 'port'
 app.listen(app.get('port'), () => {
