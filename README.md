@@ -7,6 +7,7 @@ The backend for the MyMind app. TODO: insert link
 - MondoDB
 - Express
 - Heroku (tentative)
+- bcrypt
 
 ## Instrucitons
 
