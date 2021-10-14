@@ -8,6 +8,8 @@ The backend for the MyMind app. TODO: insert link
 - Express
 - Heroku (tentative)
 - bcrypt
+- Passport
+- JSON Web Token
 
 ## Instrucitons
 
