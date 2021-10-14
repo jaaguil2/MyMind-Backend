@@ -15,8 +15,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 // Middleware Routes
-app.use('/api/users', userController)
-app.use('/api/rooms', roomController)
+app.use('/api/user', userController)
+app.use('/api/room', roomController)
 
 // Error Handling
 app.use(handleValidationErrors)

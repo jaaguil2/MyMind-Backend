@@ -19,6 +19,7 @@ router.get('/:id', handleValidateId, (req, res, next) => {
   Room.findById(req.params.id)
     .then(handleRecordExists)
     .populate('owner')
+    .populate('links')
     .then(room => res.json(room))
     .catch(next)
 })
