@@ -6,8 +6,9 @@ const roomSchema = new mongoose.Schema({
     required: true
   },
   owner: {
-    type: mongoose.ObjectId,
-    ref: 'User'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
   thoughts: String,
   links: [{
