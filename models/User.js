@@ -19,6 +19,17 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   }
-}, { timestamps: true })
+}, 
+{
+  timestamps: true,
+  id: false,
+  toJSON: {
+    virtuals: true,
+    transfrom: (_doc, ret) => {
+      delete ret.password
+      return ret
+    }
+  }
+})
 
 module.exports = mongoose.model('User', userSchema)
