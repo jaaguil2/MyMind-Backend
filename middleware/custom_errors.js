@@ -49,9 +49,12 @@ class InvalidIdError extends Error {
 
 
 // Custom Error Methods
-const handleValidateOwnership = (requestObject, resource) => {
-  if (!requestObject.user._id.equals(resource.owner)) {
+const handleValidateOwnership = (req, document) => {
+  const ownerId = document.owner._id || document.owner
+  if (!req.user._id.equals(ownerId)) {
     throw new OwnershipError()
+  } else {
+    return document
   }
 }
 
@@ -73,7 +76,7 @@ const handleValidateId = (req, res, next) => {
 }
 
 const handleValidationErrors = (err, req, res, next) => {
-  if (err.name.match(/Valid/) || err.name === 'MongoError') {
+  if (err.name.match(/Valid/) || err.name === 'MongoServerError') {
     throw new BadParamsError()
   } else {
     next(err)
@@ -92,4 +95,5 @@ module.exports = {
   handleValidateId,
   handleValidationErrors,
   handleErrors,
+  BadCredentialsError
 }

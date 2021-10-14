@@ -1,6 +1,11 @@
 const express = require('express')
 const Room = require('../models/Room')
-const { handleValidateId, handleRecordExists } = require('../middleware/custom_errors')
+const { 
+  handleValidateId, 
+  handleRecordExists,
+  handleValidateOwnership
+} = require('../middleware/custom_errors')
+const { requireToken } = require('../middleware/auth')
 
 const router = express.Router()
 
@@ -26,21 +31,24 @@ router.get('/:id', handleValidateId, (req, res, next) => {
 
 // CREATE
 // POST api/room
-router.post('/', (req, res, next) => {
-  Room.create(req.body)
-    .then(room => res.status(201).json(room))
-    .catch(next)
+router.post('/', requireToken, (req, res, next) => {
+  if (req.body.name !== "home") {
+    Room.create({ ...req.body, owner: req.user._id })
+      .then(room => res.status(201).json(room))
+      .catch(next)
+  } else {
+    throw new Error("'home' is a reserved name")
+  }
+  
 })
 
 // UPDATE
 // PUT api/room/5a7db6c74d55bc51bdf39793
-router.put('/:id', handleValidateId, (req, res, next) => {
-  Room.findOneAndUpdate(
-    { _id: req.params.id },
-    req.body,
-    { new: true }
-  )
+router.put('/:id', handleValidateId, requireToken, (req, res, next) => {
+  Room.findById(req.params.id)
     .then(handleRecordExists)
+    .then(room => handleValidateOwnership(req, room))
+    .then(room => room.set(req.body).save())
     .then(room => res.json(room))
     .catch(next)
 })
@@ -48,9 +56,17 @@ router.put('/:id', handleValidateId, (req, res, next) => {
 // DESTROY
 // DELETE api/room/5a7db6c74d55bc51bdf39793
 router.delete('/:id', handleValidateId, (req, res, next) => {
-  Room.findOneAndDelete({ _id: req.params.id })
+  Room.findById(req.params.id)
     .then(handleRecordExists)
-    .then(room => res.sendStatus(204))
+    // .then(room => handleValidateOwnership(req, room))
+    .then(room => {
+      if (room.name !== "home") {
+        room.remove()
+      } else {
+        throw new Error("Cannot remove 'home' node")
+      }   
+    })
+    .then(() => res.sendStatus(204))
     .catch(next)
 })
 

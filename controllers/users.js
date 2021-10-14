@@ -1,6 +1,10 @@
 const express = require('express')
-const User = require('../models/User')
 const bcrypt = require('bcrypt')
+const { createUserToken } = require('../middleware/auth')
+
+// Models
+const User = require('../models/User')
+const Room = require('../models/Room')
 
 const router = express.Router()
 
@@ -16,12 +20,20 @@ router.post('/signup', (req, res, next) => {
       email: req.body.email
     }))
   .then(user => User.create(user))
-  .then(user => res.status(201).json(user))
+  .then(user => {
+    Room.create({ name: "home", owner: user._id})
+    res.status(201).json(user)
+  })
   .catch(next)
 })
 
 // SIGN IN
 // POST /api/signin
-router.post('/signin', (req, res, next) => { })
+router.post('/signin', (req, res, next) => {
+  User.findOne({ userName: req.body.userName})
+    .then(user => createUserToken(req, user))
+    .then(token => res.json({ token }))
+    .catch(next)
+})
 
 module.exports = router
