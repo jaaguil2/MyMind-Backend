@@ -38,8 +38,7 @@ router.post('/', requireToken, (req, res, next) => {
       .catch(next)
   } else {
     throw new Error("'home' is a reserved name")
-  }
-  
+  }  
 })
 
 // UPDATE
@@ -49,6 +48,26 @@ router.put('/:id', handleValidateId, requireToken, (req, res, next) => {
     .then(handleRecordExists)
     .then(room => handleValidateOwnership(req, room))
     .then(room => room.set(req.body).save())
+    .then(room => res.json(room))
+    .catch(next)
+})
+
+// UPDATE
+// PUT api/room/new/5a7db6c74d55bc51bdf39793 - id: current room -> add new room to curr links
+router.put('/new/:id', handleValidateId, requireToken, (req, res, next) => {
+  Room.findById(req.params.id)
+    .then(handleRecordExists)
+    .then(room => handleValidateOwnership(req, room))
+    .then(room => {
+      if (req.body.name !== "home") {
+        Room.create({ name: req.body.name, owner: room.owner })
+          .then(newRoom => {
+            room.set({links: newRoom}).save()
+          })
+      } else {
+        throw new Error("'home' is a reserved name")
+      }
+    })
     .then(room => res.json(room))
     .catch(next)
 })
