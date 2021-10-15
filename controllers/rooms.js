@@ -29,7 +29,7 @@ router.get('/:id', handleValidateId, (req, res, next) => {
     .catch(next)
 })
 
-// CREATE
+// CREATE -- NEEDED?
 // POST api/room
 router.post('/', requireToken, (req, res, next) => {
   if (req.body.name !== "home") {
