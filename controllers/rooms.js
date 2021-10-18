@@ -20,7 +20,7 @@ const router = express.Router()
 
 // SHOW
 // GET api/room/:id 
-router.get('/:id', requireToken, (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   Room.findById(req.params.id)
     .populate('owner')
     .populate('links')
@@ -53,7 +53,7 @@ router.get('/home/:id', (req, res, next) => {
 
 // UPDATE
 // PUT api/room/:id 
-router.put('/:id', handleValidateId, requireToken, (req, res, next) => {
+router.put('/:id', handleValidateId, (req, res, next) => {
   Room.findById(req.params.id)
     .then(handleRecordExists)
     .then(room => handleValidateOwnership(req, room))
@@ -64,7 +64,7 @@ router.put('/:id', handleValidateId, requireToken, (req, res, next) => {
 
 // UPDATE
 // PUT api/room/new/:id  - id: current room -> add new room to curr links
-router.put('/new/:id', handleValidateId, requireToken, (req, res, next) => {
+router.put('/new/:id', handleValidateId, (req, res, next) => {
   Room.findById(req.params.id)
     .then(handleRecordExists)
     .then(room => handleValidateOwnership(req, room))
