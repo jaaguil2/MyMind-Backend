@@ -9,14 +9,14 @@ const { requireToken } = require('../middleware/auth')
 
 const router = express.Router()
 
-// INDEX
+// INDEX -- NEEDED?
 // GET api/room
-router.get('/', (req, res, next) => {
-  Room.find()
-  .populate('owner')
-  .then(rooms => res.json(rooms))
-  .catch(next)
-})
+// router.get('/', (req, res, next) => {
+//   Room.find()
+//   .populate('owner')
+//   .then(rooms => res.json(rooms))
+//   .catch(next)
+// })
 
 // SHOW
 // GET api/room/5a7db6c74d55bc51bdf39793
@@ -31,15 +31,15 @@ router.get('/:id', handleValidateId, (req, res, next) => {
 
 // CREATE -- NEEDED?
 // POST api/room
-router.post('/', requireToken, (req, res, next) => {
-  if (req.body.name !== "home") {
-    Room.create({ ...req.body, owner: req.user._id })
-      .then(room => res.status(201).json(room))
-      .catch(next)
-  } else {
-    throw new Error("'home' is a reserved name")
-  }  
-})
+// router.post('/', requireToken, (req, res, next) => {
+//   if (req.body.name !== "home") {
+//     Room.create({ ...req.body, owner: req.user._id })
+//       .then(room => res.status(201).json(room))
+//       .catch(next)
+//   } else {
+//     throw new Error("'home' is a reserved name")
+//   }  
+// })
 
 // UPDATE
 // PUT api/room/5a7db6c74d55bc51bdf39793

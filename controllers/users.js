@@ -21,9 +21,11 @@ router.post('/signup', (req, res, next) => {
     }))
   .then(user => User.create(user))
   .then(user => {
-    Room.create({ name: "home", owner: user._id})
-    res.status(201).json(user)
+    Room.create({ name: "home", owner: user._id })
+    return user
   })
+  .then(user => ({ token: createUserToken(req, user), id: user._id }))
+  .then(json => res.json(json))
   .catch(next)
 })
 
@@ -31,8 +33,8 @@ router.post('/signup', (req, res, next) => {
 // POST /api/signin
 router.post('/signin', (req, res, next) => {
   User.findOne({ userName: req.body.userName})
-    .then(user => createUserToken(req, user))
-    .then(token => res.json({ token }))
+    .then(user => ({ token: createUserToken(req, user), id: user._id}))
+    .then(json => res.json(json))
     .catch(next)
 })
 
