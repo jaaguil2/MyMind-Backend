@@ -19,12 +19,22 @@ const router = express.Router()
 // })
 
 // SHOW
-// GET api/room/5a7db6c74d55bc51bdf39793
-router.get('/:id', handleValidateId, (req, res, next) => {
+// GET api/room/:id 
+router.get('/:id', requireToken, (req, res, next) => {
   Room.findById(req.params.id)
     .populate('owner')
     .populate('links')
     .then(handleRecordExists)    
+    .then(room => res.json(room))
+    .catch(next)
+})
+
+//SHOW
+// Get api/room/home/:id 
+// returns home room from user id
+router.get('/home/:id', (req, res, next) => {
+  Room.find({ owner: `${req.params.id}`, name: "home"})
+    .then(handleRecordExists)
     .then(room => res.json(room))
     .catch(next)
 })
@@ -42,7 +52,7 @@ router.get('/:id', handleValidateId, (req, res, next) => {
 // })
 
 // UPDATE
-// PUT api/room/5a7db6c74d55bc51bdf39793
+// PUT api/room/:id 
 router.put('/:id', handleValidateId, requireToken, (req, res, next) => {
   Room.findById(req.params.id)
     .then(handleRecordExists)
@@ -53,7 +63,7 @@ router.put('/:id', handleValidateId, requireToken, (req, res, next) => {
 })
 
 // UPDATE
-// PUT api/room/new/5a7db6c74d55bc51bdf39793 - id: current room -> add new room to curr links
+// PUT api/room/new/:id  - id: current room -> add new room to curr links
 router.put('/new/:id', handleValidateId, requireToken, (req, res, next) => {
   Room.findById(req.params.id)
     .then(handleRecordExists)
@@ -73,7 +83,7 @@ router.put('/new/:id', handleValidateId, requireToken, (req, res, next) => {
 })
 
 // DESTROY
-// DELETE api/room/5a7db6c74d55bc51bdf39793
+// DELETE api/room/:id 
 router.delete('/:id', handleValidateId, (req, res, next) => {
   Room.findById(req.params.id)
     .then(handleRecordExists)
