@@ -5,7 +5,6 @@ const {
   handleRecordExists,
   handleValidateOwnership
 } = require('../middleware/custom_errors')
-const { requireToken } = require('../middleware/auth')
 
 const router = express.Router()
 
@@ -35,7 +34,7 @@ router.get('/:id', (req, res, next) => {
 router.get('/home/:id', (req, res, next) => {
   Room.find({ owner: `${req.params.id}`, name: "home"})
     .then(handleRecordExists)
-    .then(room => res.json(room))
+    .then(room => res.json(room.pop()))
     .catch(next)
 })
 
