@@ -19,6 +19,7 @@ const router = express.Router()
 
 // SHOW
 // GET api/room/:id 
+// get room from id
 router.get('/:id', (req, res, next) => {
   Room.findById(req.params.id)
     .populate('owner')
@@ -55,29 +56,31 @@ router.get('/home/:id', (req, res, next) => {
 router.put('/:id', handleValidateId, (req, res, next) => {
   Room.findById(req.params.id)
     .then(handleRecordExists)
-    .then(room => handleValidateOwnership(req, room))
     .then(room => room.set(req.body).save())
     .then(room => res.json(room))
     .catch(next)
 })
 
-// UPDATE
+// Create
 // PUT api/room/new/:id  - id: current room -> add new room to curr links
 router.put('/new/:id', handleValidateId, (req, res, next) => {
   Room.findById(req.params.id)
+    .populate('links')
     .then(handleRecordExists)
-    .then(room => handleValidateOwnership(req, room))
     .then(room => {
       if (req.body.name !== "home") {
         Room.create({ name: req.body.name, owner: room.owner })
           .then(newRoom => {
-            room.set({links: newRoom}).save()
+            sendRoom = newRoom
+            room.links.push(newRoom)
+            room.save()
+            return newRoom
           })
+          .then(room => res.json(room))
       } else {
         throw new Error("'home' is a reserved name")
       }
     })
-    .then(room => res.json(room))
     .catch(next)
 })
 
