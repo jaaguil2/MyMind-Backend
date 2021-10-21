@@ -14,18 +14,6 @@ router.get('/', (req, res, next) => {
   res.json("Welcome to MyMind API")
 })
 
-// Seed
-router.get('/seed', (req, res, next) => {
-  const obj = {
-    name: 'j',
-    password: 'j',
-    userName: 'j',
-    email: 'j@j.com'
-  }
-  User.create(obj)
-    .then(res => console.log("seed", json))
-})
-
 // SIGN UP
 // POST /api/signup
 router.post('/signup', (req, res, next) => { 
@@ -37,12 +25,8 @@ router.post('/signup', (req, res, next) => {
       userName: req.body.userName,
       email: req.body.email
     }))
-  .then(user => {
-    console.log("b1:",user)
-    return User.create(user)
-  })
-  .then(user => {
-    console.log("b2:", user)
+  .then(user => User.create(user))
+  .then(user => {    
     Room.create({ name: "home", owner: user._id })
     return user
   })
