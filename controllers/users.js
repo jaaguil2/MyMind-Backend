@@ -8,6 +8,11 @@ const Room = require('../models/Room')
 
 const router = express.Router()
 
+// get
+router.get('/', (req, res, next) => {
+  return "Welcome to MyMind API"
+})
+
 // SIGN UP
 // POST /api/signup
 router.post('/signup', (req, res, next) => { 
