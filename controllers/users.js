@@ -14,6 +14,18 @@ router.get('/', (req, res, next) => {
   res.json("Welcome to MyMind API")
 })
 
+// Seed
+router.get('/seed', (req, res, next) => {
+  const obj = {
+    name: 'j',
+    password: 'j',
+    userName: 'j',
+    email: 'j@j.com'
+  }
+  User.create(obj)
+    .then(res => console.log("seed", json))
+})
+
 // SIGN UP
 // POST /api/signup
 router.post('/signup', (req, res, next) => { 
