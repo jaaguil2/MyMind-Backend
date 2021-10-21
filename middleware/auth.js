@@ -1,3 +1,5 @@
+// Scaffolding in place to add auth
+
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')

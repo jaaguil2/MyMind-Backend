@@ -3,19 +3,9 @@ const Room = require('../models/Room')
 const { 
   handleValidateId, 
   handleRecordExists,
-  handleValidateOwnership
 } = require('../middleware/custom_errors')
 
 const router = express.Router()
-
-// INDEX -- NEEDED?
-// GET api/room
-// router.get('/', (req, res, next) => {
-//   Room.find()
-//   .populate('owner')
-//   .then(rooms => res.json(rooms))
-//   .catch(next)
-// })
 
 // SHOW
 // GET api/room/:id 
@@ -38,18 +28,6 @@ router.get('/home/:id', (req, res, next) => {
     .then(room => res.json(room.pop()))
     .catch(next)
 })
-
-// CREATE -- NEEDED?
-// POST api/room
-// router.post('/', requireToken, (req, res, next) => {
-//   if (req.body.name !== "home") {
-//     Room.create({ ...req.body, owner: req.user._id })
-//       .then(room => res.status(201).json(room))
-//       .catch(next)
-//   } else {
-//     throw new Error("'home' is a reserved name")
-//   }  
-// })
 
 // UPDATE
 // PUT api/room/:id 

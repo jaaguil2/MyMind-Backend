@@ -8,7 +8,8 @@ const Room = require('../models/Room')
 
 const router = express.Router()
 
-// get
+// GET
+// Basic route to know api is up
 router.get('/', (req, res, next) => {
   res.json("Welcome to MyMind API")
 })
