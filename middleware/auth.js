@@ -3,8 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { BadCredentialsError } = require('../middleware/custom_errors')
 
-const secret = process.env.JWT_SECRET
-
+const secret = "none"
 const { Strategy, ExtractJwt } = require('passport-jwt')
 
 const opts = {
