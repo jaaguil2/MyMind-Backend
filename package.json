@@ -2,7 +2,7 @@
   "name": "mymind-backend",
   "version": "1.0.0",
   "engines": {
-    "node": "10.11.0"
+    "node": "16.6.1"
   },
   "description": "Backend for the MyMind app.",
   "main": "server.js",
