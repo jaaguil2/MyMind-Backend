@@ -17,6 +17,7 @@ router.get('/', (req, res, next) => {
 // SIGN UP
 // POST /api/signup
 router.post('/signup', (req, res, next) => { 
+  console.log("req.body:",req.body)
   bcrypt
     .hash(req.body.password, 11)
     .then(hash => ({
@@ -25,7 +26,9 @@ router.post('/signup', (req, res, next) => {
       userName: req.body.userName,
       email: req.body.email
     }))
-  .then(user => User.create(user))
+  .then(user => {
+    console.log("user:", user)
+    User.create(user)})
   .then(user => {
     Room.create({ name: "home", owner: user._id })
     return user
