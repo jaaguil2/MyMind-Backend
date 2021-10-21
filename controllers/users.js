@@ -26,10 +26,11 @@ router.post('/signup', (req, res, next) => {
       email: req.body.email
     }))
   .then(user => {
-    console.log(user)
+    console.log("b1:",user)
     return User.create(user)
   })
   .then(user => {
+    console.log("b2:", user)
     Room.create({ name: "home", owner: user._id })
     return user
   })
