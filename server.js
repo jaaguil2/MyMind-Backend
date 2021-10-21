@@ -24,7 +24,7 @@ app.use(handleValidationErrors)
 app.use(handleErrors)
 
 // Set Port
-app.set('port', process.env.PORT)
+app.set('port', process.env.PORT || 4000)
 
 // Connect on 'port'
 app.listen(app.get('port'), () => {
