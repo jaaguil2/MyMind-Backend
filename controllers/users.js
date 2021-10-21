@@ -10,7 +10,7 @@ const router = express.Router()
 
 // get
 router.get('/', (req, res, next) => {
-  return "Welcome to MyMind API"
+  res.json("Welcome to MyMind API")
 })
 
 // SIGN UP
